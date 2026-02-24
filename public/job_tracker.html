@@ -639,6 +639,70 @@
             display: none;
         }
 
+        /* ===== CHARTS SECTION ===== */
+        .charts-section {
+            margin-bottom: 2rem;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
+        }
+
+        .chart-title {
+            font-size: 0.9375rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .chart-canvas-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 1.25rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.8125rem;
+            color: var(--text);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-label { flex: 1; }
+        .legend-count { font-weight: 700; }
+
         /* ===== SHEET SYNC BANNER ===== */
         .sync-banner {
             background: white;
@@ -922,6 +986,28 @@
             </div>
         </div>
 
+        <!-- Charts Section -->
+        <div class="charts-section">
+            <div class="charts-grid">
+                <!-- Donut Chart -->
+                <div class="chart-card">
+                    <div class="chart-title">Application Status</div>
+                    <div class="chart-canvas-wrap">
+                        <canvas id="donutChart" width="160" height="160"></canvas>
+                    </div>
+                    <div class="donut-legend" id="donutLegend"></div>
+                </div>
+
+                <!-- Bar Chart -->
+                <div class="chart-card">
+                    <div class="chart-title">Applications Over Time</div>
+                    <div class="chart-canvas-wrap" style="height:200px;">
+                        <canvas id="barChart" style="width:100%;height:200px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Search and Filter Section -->
         <div class="search-filter-section">
             <div class="search-box">
@@ -953,7 +1039,7 @@
             <div class="empty-icon">🎯</div>
             <div class="empty-title">No job applications yet</div>
             <div class="empty-text">Set up your automation tracker to start automatically importing applications from your Gmail</div>
-            <button class="btn" onclick="openSetupModal()">⚙️ Configure Automation Tracker</button>
+            <button class="btn" onclick="openSetupModal()">Configure Automation Tracker</button>
         </div>
     </div>
 </main>
@@ -1323,6 +1409,190 @@ const CONFIG = { SHEET_NAME: 'Sheet1', POLL_MINUTES: 5, ... }
         document.getElementById('stat-response').textContent = responseRate + '%';
         document.getElementById('stat-interview').textContent = interviews;
         document.getElementById('stat-offer').textContent = offers;
+
+        updateCharts(allJobs);
+    }
+
+    // ============================================================
+    // CHARTS
+    // ============================================================
+    function updateCharts(allJobs) {
+        drawDonutChart(allJobs);
+        drawBarChart(allJobs);
+    }
+
+    function drawDonutChart(allJobs) {
+        const canvas = document.getElementById('donutChart');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const size = 160;
+        canvas.width = size * dpr;
+        canvas.height = size * dpr;
+        canvas.style.width = size + 'px';
+        canvas.style.height = size + 'px';
+        ctx.scale(dpr, dpr);
+
+        const statusColors = {
+            'Applied':   '#3B82F6',
+            'Interview': '#F59E0B',
+            'Offer':     '#10B981',
+            'Rejected':  '#EF4444',
+        };
+
+        const counts = { Applied: 0, Interview: 0, Offer: 0, Rejected: 0 };
+        allJobs.forEach(j => { if (counts[j.status] !== undefined) counts[j.status]++; });
+        const total = allJobs.length || 1;
+
+        const cx = size / 2, cy = size / 2, r = 58, inner = 36;
+        let startAngle = -Math.PI / 2;
+
+        const entries = Object.entries(counts).filter(([,v]) => v > 0);
+        if (entries.length === 0) {
+            // empty ring
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.arc(cx, cy, inner, 0, Math.PI * 2, true);
+            ctx.fillStyle = '#f3f4f6';
+            ctx.fill();
+        } else {
+            entries.forEach(([status, count]) => {
+                const slice = (count / total) * Math.PI * 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, cy);
+                ctx.arc(cx, cy, r, startAngle, startAngle + slice);
+                ctx.closePath();
+                // cut inner hole
+                ctx.save();
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.fillStyle = statusColors[status];
+                ctx.fill();
+                ctx.restore();
+                startAngle += slice;
+            });
+            // punch inner hole
+            ctx.beginPath();
+            ctx.arc(cx, cy, inner, 0, Math.PI * 2);
+            ctx.fillStyle = 'white';
+            ctx.fill();
+        }
+
+        // Center label
+        ctx.fillStyle = '#475467';
+        ctx.font = `bold ${size * 0.175}px "Mona Sans", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(allJobs.length, cx, cy - 6);
+        ctx.font = `${size * 0.1}px "Mona Sans", sans-serif`;
+        ctx.fillStyle = '#9ca3af';
+        ctx.fillText('total', cx, cy + 12);
+
+        // Legend
+        const legend = document.getElementById('donutLegend');
+        if (legend) {
+            legend.innerHTML = Object.entries(counts).map(([status, count]) => `
+                <div class="legend-item">
+                    <div class="legend-dot" style="background:${statusColors[status]}"></div>
+                    <span class="legend-label">${status}</span>
+                    <span class="legend-count">${count}</span>
+                </div>
+            `).join('');
+        }
+    }
+
+    function drawBarChart(allJobs) {
+        const canvas = document.getElementById('barChart');
+        if (!canvas) return;
+
+        const wrap = canvas.parentElement;
+        const W = wrap.offsetWidth || 400;
+        const H = 200;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = W * dpr;
+        canvas.height = H * dpr;
+        canvas.style.width = W + 'px';
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // Group by month
+        const monthMap = {};
+        allJobs.forEach(j => {
+            const raw = j.dateApplied;
+            if (!raw) return;
+            const d = new Date(raw);
+            if (isNaN(d)) return;
+            const key = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+            monthMap[key] = (monthMap[key] || 0) + 1;
+        });
+
+        const sortedKeys = Object.keys(monthMap).sort();
+        // Show last 8 months max
+        const keys = sortedKeys.slice(-8);
+        const values = keys.map(k => monthMap[k]);
+        const maxVal = Math.max(...values, 1);
+
+        const padL = 32, padR = 16, padT = 16, padB = 36;
+        const chartW = W - padL - padR;
+        const chartH = H - padT - padB;
+        const barW = keys.length > 0 ? Math.min(40, (chartW / keys.length) * 0.6) : 30;
+        const gap = keys.length > 1 ? (chartW - barW * keys.length) / (keys.length - 1) : 0;
+
+        // Gridlines
+        ctx.strokeStyle = '#f3f4f6';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 4; i++) {
+            const y = padT + chartH - (i / 4) * chartH;
+            ctx.beginPath();
+            ctx.moveTo(padL, y);
+            ctx.lineTo(W - padR, y);
+            ctx.stroke();
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = `10px "Mona Sans", sans-serif`;
+            ctx.textAlign = 'right';
+            ctx.fillText(Math.round((i / 4) * maxVal), padL - 4, y + 4);
+        }
+
+        // Bars
+        const gradient = ctx.createLinearGradient(0, padT, 0, padT + chartH);
+        gradient.addColorStop(0, '#FF8B7B');
+        gradient.addColorStop(1, '#FF6B6B');
+
+        keys.forEach((key, i) => {
+            const x = padL + i * (barW + gap);
+            const barH = (values[i] / maxVal) * chartH;
+            const y = padT + chartH - barH;
+
+            // Rounded top bar
+            const radius = Math.min(5, barW / 2);
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + barW - radius, y);
+            ctx.quadraticCurveTo(x + barW, y, x + barW, y + radius);
+            ctx.lineTo(x + barW, y + barH);
+            ctx.lineTo(x, y + barH);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Month label
+            const parts = key.split('-');
+            const label = new Date(parseInt(parts[0]), parseInt(parts[1])-1).toLocaleString('default', { month: 'short' });
+            ctx.fillStyle = '#9ca3af';
+            ctx.font = `10px "Mona Sans", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x + barW / 2, H - padB + 14);
+        });
+
+        // No data message
+        if (keys.length === 0) {
+            ctx.fillStyle = '#d1d5db';
+            ctx.font = `13px "Mona Sans", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText('No date data yet', W / 2, H / 2);
+        }
     }
 
     // Full tracker.gs code for clipboard copy
@@ -1698,6 +1968,11 @@ const CONFIG = { SHEET_NAME: 'Sheet1', POLL_MINUTES: 5, ... }
         if (searchInput) searchInput.addEventListener('input', renderJobs);
         if (statusFilter) statusFilter.addEventListener('change', renderJobs);
         if (sortBy) sortBy.addEventListener('change', renderJobs);
+
+        window.addEventListener('resize', () => {
+            const allJobs = [...sheetJobs, ...jobs];
+            updateCharts(allJobs);
+        });
     });
 
     // Initialize
