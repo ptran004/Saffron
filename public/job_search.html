@@ -583,6 +583,9 @@
         </div>
         <div class="search-section">
             <div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
+                <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; font-size: 0.8rem; font-weight: 600; color: white; background: linear-gradient(to bottom, #FF8B7B, #FF6B6B); border-radius: 9999px; text-decoration: none; transition: all 0.3s; margin-bottom: 1rem;" onmouseover="this.style.background='linear-gradient(to bottom, #FF7A6A, #FF5252)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.background='linear-gradient(to bottom, #FF8B7B, #FF6B6B)'; this.style.transform='translateY(0)';">
+                    Get SerpAPI Key ↗
+                </a>
                 <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--text);">⚙️ API Configuration</h3>
                 <div style="display: flex; gap: 1rem; align-items: flex-end;">
                     <div class="form-group" style="flex: 1;">
@@ -783,7 +786,7 @@
         resultsSection.style.display = 'block';
         displayQuery.textContent = jobTitle;
         displayLocation.textContent = location;
-        
+
         // Reset state
         allJobs = [];
         displayedCount = 0;
@@ -832,10 +835,10 @@
 
     function displayNextJobs() {
         const nextJobs = allJobs.slice(displayedCount, displayedCount + JOBS_PER_PAGE);
-        
+
         const jobsHtml = nextJobs.map((job, index) => {
             const applyLink = job.link || (job.allLinks && job.allLinks.length > 0 ? job.allLinks[0] : null);
-            
+
             return `
             <div class="job-card" style="animation-delay: ${(index % JOBS_PER_PAGE) * 0.1}s">
                 <span class="source-badge">🔍 Google Jobs (via SerpAPI)</span>

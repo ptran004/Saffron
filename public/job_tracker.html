@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAFFRON</title>
+    <title>Job Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <script src="https://js.puter.com/v2/"></script>
     <style>
         /* ===== CSS RESET & VARIABLES ===== */
         @import url('https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap');
@@ -36,7 +37,7 @@
             position: relative;
         }
 
-        button, input, select, textarea, a {
+        button, input, select, textarea {
             font-family: inherit;
         }
 
@@ -86,16 +87,18 @@
             z-index: 1;
         }
 
+        main {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            padding-top: 2.5rem;
+        }
+
         /* ===== LAYOUT CONTAINERS ===== */
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
-        }
-
-        main {
-            min-height: 100vh;
-            padding-top: 2.5rem;
         }
 
         /* ===== NAVBAR ===== */
@@ -120,7 +123,7 @@
             max-width: 1200px;
             margin: 42px auto 0;
             border: 1px solid rgba(255, 122, 110, 0.16);
-            box-shadow: 0 14px 46px rgba(255, 122, 110, 0.18);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
         .text-gradient {
@@ -149,7 +152,7 @@
         .nav-btn {
             padding: 0.60rem 1.35rem;
             font-size: 0.875rem;
-            font-weight: 600;
+            font-weight: 500;
             text-decoration: none;
             border-radius: 9999px;
             transition: all 0.3s;
@@ -157,6 +160,7 @@
             background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
             color: white;
             border: none;
+            cursor: pointer;
         }
 
         .nav-btn:hover {
@@ -164,29 +168,36 @@
             transform: translateY(-1px);
         }
 
-        .nav-btn-primary {
+        .btn {
+            padding: 0.60rem 1.35rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.3s;
+            white-space: nowrap;
             background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
             color: white;
             border: none;
+            cursor: pointer;
         }
 
-        .nav-btn-primary:hover {
+        .btn:hover {
             background: linear-gradient(to bottom, #FF7A6A, #FF5252);
+            transform: translateY(-1px);
         }
 
-
-        /* ===== TYPOGRAPHY ===== */
-        .page-heading {
+        /* ===== HERO TEXT ===== */
+        .hero-text {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 2rem;
             max-width: 56rem;
             text-align: center;
-            margin: 5rem auto 3rem;
+            margin: 8rem auto 3rem;
         }
 
-        .page-heading h1 {
+        .hero-text h1 {
             font-size: clamp(3rem, 8vw, 4rem);
             font-weight: 600;
             background: linear-gradient(to right, #FF9A76, #FF6B6B, #E85D75);
@@ -195,186 +206,146 @@
             -webkit-text-fill-color: transparent;
             line-height: 1.1;
             letter-spacing: -0.02em;
+            margin-top: -50px;
         }
 
-        .page-heading .subtitle {
+        .hero-text .subtitle {
             font-size: 2rem;
             color: var(--text);
             font-weight: 400;
             opacity: 0.8;
         }
 
-        /* ===== FORMS & INPUTS ===== */
-        .search-section {
-            background: white;
-            border-radius: 1.5rem;
-            margin: 3rem auto;
-            max-width: 900px;
-            padding: 3rem;
-            box-shadow: inset 0 0 12px 0 rgba(36, 99, 235, 0.2);
+        /* ===== ADD JOB BUTTON CONTAINER ===== */
+        .add-job-container {
+            display: flex;
+            justify-content: flex-start;
+            margin: 1.5rem auto 2rem;
+            max-width: 1200px;
         }
 
-        .form-grid {
+        /* ===== STATS GRID ===== */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
-        .form-group {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        label {
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        input, select {
-            width: 100%;
-            padding: 1rem;
-            border: 1px solid #e5e7eb;
+        .stat-card {
             background: white;
-            font-family: var(--font-sans);
-            font-size: 1rem;
-            border-radius: 1rem;
-            transition: all 0.2s;
-            box-shadow: inset 0 0 12px 0 rgba(36, 99, 235, 0.2);
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--secondary);
-            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
-        }
-
-        small {
-            display: block;
-            margin-top: 0.25rem;
-            font-size: 0.75rem;
-            color: #6b7280;
-        }
-
-        /* ===== BUTTONS ===== */
-        button, .primary-button {
-            background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
-            color: white;
-            border: none;
-            padding: 1rem 2rem;
-            font-family: var(--font-sans);
-            font-size: 1.125rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-            cursor: pointer;
-            border-radius: 9999px;
-            transition: all 0.3s;
-            box-shadow: 0px 74px 21px 0px #FF8B7B00;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        button:hover, .primary-button:hover {
-            background: linear-gradient(to bottom, #FF7A6A, #FF5252);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(255, 107, 107, 0.3);
-        }
-
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* ===== MESSAGES & BOXES ===== */
-        .info-box {
-            background: linear-gradient(to bottom, #f0f4ff 60%, rgba(250, 113, 133, 0.2));
-            border: 1px solid rgba(255, 107, 107, 0.2);
-            border-radius: 1rem;
+            border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
         }
 
-        .warning-box {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        /* ===== RESULTS SECTION ===== */
-        .results {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid #f3f4f6;
-            padding-bottom: 1rem;
-        }
-
-        .results-header h2 {
+        .stat-number {
             font-size: 2rem;
-            font-weight: 600;
-            color: var(--secondary);
+            font-weight: 700;
+            background: linear-gradient(to right, #FF9A76, #FF6B6B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
-        .result-count {
+        .stat-label {
             font-size: 0.875rem;
             color: var(--text);
-            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        /* ===== SEARCH AND FILTER SECTION ===== */
+        .search-filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
+        }
+
+        .search-box {
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            font-size: 0.9375rem;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s;
+            background: var(--light-bg);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 139, 123, 0.1);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-select {
+            padding: 0.625rem 1rem;
+            font-size: 0.875rem;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            background: var(--light-bg);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 139, 123, 0.1);
+        }
+
+        .btn-reset {
+            padding: 0.625rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            background: white;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-reset:hover {
+            background: var(--light-bg);
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         /* ===== JOB CARDS ===== */
         .job-card {
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 1.5rem;
-            padding: 2rem;
-            margin-bottom: 1.5rem;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
+            margin-bottom: 1rem;
             transition: all 0.3s;
-            animation: slideIn 0.5s ease-out;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .job-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-color: var(--secondary);
-        }
-
-        .source-badge {
-            display: inline-block;
-            background: linear-gradient(to right, #FF9A76, #FF6B6B);
-            color: white;
-            padding: 0.25rem 0.875rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-            margin-bottom: 0.75rem;
-            border-radius: 9999px;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 107, 107, 0.15);
         }
 
         .job-header {
@@ -382,161 +353,274 @@
             justify-content: space-between;
             align-items: start;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
             gap: 1rem;
         }
 
         .job-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            line-height: 1.3;
+            font-size: 1.25rem;
+            font-weight: 700;
             color: var(--text);
+            margin-bottom: 0.25rem;
         }
 
-        .job-link {
-            background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
-            color: white;
-            padding: 0.625rem 1.25rem;
-            text-decoration: none;
-            font-size: 0.875rem;
+        .job-company {
+            font-size: 1rem;
+            color: var(--secondary);
             font-weight: 600;
-            white-space: nowrap;
-            border-radius: 9999px;
-            transition: all 0.2s;
         }
 
-        .job-link:hover {
-            background: linear-gradient(to bottom, #FF7A6A, #FF5252);
-            transform: scale(1.05);
+        .status-badge {
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: white;
         }
+
+        .status-applied { background-color: #3B82F6; }
+        .status-interview { background-color: #F59E0B; }
+        .status-offer { background-color: #10B981; }
+        .status-rejected { background-color: #EF4444; }
 
         .job-meta {
             display: flex;
-            gap: 2rem;
-            margin-bottom: 1rem;
+            gap: 1.5rem;
             flex-wrap: wrap;
+            margin-top: 1rem;
+            font-size: 0.875rem;
         }
 
         .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text);
+        }
+
+        .meta-item a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .meta-item a:hover {
+            text-decoration: underline;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 999px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-edit {
+            background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: linear-gradient(to bottom, #FF7A6A, #FF5252);
+        }
+
+        .btn-delete {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .btn-delete:hover {
+            background: #e5e7eb;
+        }
+
+        .job-notes {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border-radius: 10px;
             font-size: 0.875rem;
             color: var(--text);
         }
 
-        .meta-item strong {
-            color: var(--secondary);
-            margin-right: 0.5rem;
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 1rem;
         }
 
-        .job-snippet {
-            line-height: 1.6;
-            color: #6b7280;
-            font-size: 0.9rem;
+        .modal-overlay.active {
+            display: flex;
         }
 
-        /* ===== LOADING STATES ===== */
-        .loading-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.7);
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(255, 107, 107, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #FF9A76, #FF6B6B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text);
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 10;
-            border-radius: 1rem;
         }
 
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 3px solid var(--border);
-            border-top-color: var(--secondary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
+        .form-group {
+            margin-bottom: 1.25rem;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .load-more-container {
-            text-align: center;
-            margin-top: 2rem;
-            padding-bottom: 3rem;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-            font-size: 1.125rem;
-            animation: pulse 1.5s ease-in-out infinite;
-        }
-
-        .loading-progress {
-            margin-top: 1rem;
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
             font-size: 0.875rem;
-            color: var(--secondary);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
         }
 
-        /* ===== EMPTY STATES ===== */
-        .no-results {
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-cancel {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
             text-align: center;
             padding: 4rem 2rem;
             background: white;
-            border: 1px solid #e5e7eb;
-            border-radius: 1.5rem;
-            max-width: 600px;
-            margin: 2rem auto;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
         }
 
-        .no-results h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text);
+        .empty-icon {
+            font-size: 4rem;
             margin-bottom: 1rem;
         }
 
-        /* ===== RESPONSIVE DESIGN ===== */
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-text {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .navbar {
-                padding: 1rem 1.5rem;
-                margin: 1rem 1rem 0;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
             }
 
-            .logo {
-                font-size: 22px;
-            }
-
-            .search-section {
-                padding: 2rem 1.5rem;
-                margin: 2rem 1rem;
-            }
-
-            .page-heading h1 {
-                font-size: 3rem;
+            .stats-grid {
+                grid-template-columns: 1fr;
             }
 
             .job-header {
                 flex-direction: column;
+                gap: 0.75rem;
             }
 
-            .job-meta {
+            .form-actions {
                 flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .primary-button {
-                padding: 10px 14px;
-                font-size: 14px;
             }
 
-            .container {
-                padding: 0 1rem;
+            .btn, .btn-small, .nav-btn {
+                width: 100%;
+            }
+
+            .nav-buttons {
+                margin-right: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .add-job-container {
+                justify-content: center;
             }
         }
 
@@ -550,15 +634,235 @@
                 font-size: 0.75rem;
             }
         }
+
+        .hidden {
+            display: none;
+        }
+
+        /* ===== SHEET SYNC BANNER ===== */
+        .sync-banner {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 20px rgba(255, 107, 107, 0.08);
+        }
+
+        .sync-banner .sync-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text);
+            white-space: nowrap;
+        }
+
+        .sync-url-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.55rem 1rem;
+            font-size: 0.8125rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            background: var(--light-bg);
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .sync-url-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 139, 123, 0.1);
+        }
+
+        .sync-url-input::placeholder {
+            color: #aaa;
+        }
+
+        .btn-sync {
+            padding: 0.55rem 1.25rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn-sync:hover {
+            background: linear-gradient(to bottom, #FF7A6A, #FF5252);
+            transform: translateY(-1px);
+        }
+
+        .btn-sync:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .sync-status {
+            font-size: 0.8rem;
+            color: #6b7280;
+            white-space: nowrap;
+        }
+
+        .sync-status.success { color: #10B981; }
+        .sync-status.error { color: #EF4444; }
+
+        .setup-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .setup-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .setup-step:last-of-type {
+            border-bottom: none;
+        }
+
+        .step-num {
+            min-width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, #FF8B7B, #FF6B6B);
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 0.9375rem;
+            color: #1f2937;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-desc {
+            font-size: 0.875rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .step-desc a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .step-desc a:hover { text-decoration: underline; }
+
+        .setup-complete {
+            margin-top: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            color: #166534;
+            line-height: 1.6;
+        }
+
+        .code-copy-box {
+            margin-top: 0.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #1e1e2e;
+        }
+
+        .code-copy-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.85rem;
+            background: #2a2a3e;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .code-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #a0a0c0;
+            font-family: monospace;
+        }
+
+        .copy-btn {
+            padding: 0.3rem 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 6px;
+            border: 1px solid rgba(255,139,123,0.5);
+            background: rgba(255,107,107,0.15);
+            color: #FF8B7B;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: var(--font-sans);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,107,107,0.3);
+            border-color: #FF8B7B;
+        }
+
+        .copy-btn.copied {
+            background: rgba(16,185,129,0.2);
+            border-color: #10B981;
+            color: #10B981;
+        }
+
+        .code-preview {
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+            color: #a0aec0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+            margin: 0;
+            white-space: pre;
+            overflow-x: auto;
+            max-height: 80px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .source-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+            vertical-align: middle;
+        }
+
+        .source-sheet { background: #dcfce7; color: #166534; }
+        .source-manual { background: #e0f2fe; color: #075985; }
     </style>
 </head>
 <body>
-<!-- Body content remains exactly the same -->
 <div class="noise"></div>
+
 <div class="bg-svg" aria-hidden="true">
-    <!-- SVG backgrounds remain exactly the same -->
-    <img class="bg-main" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FF8B7B;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23FF6B6B;stop-opacity:0.8' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,300 Q480,150 960,300 T1920,300 L1920,0 L0,0 Z' fill='%23FF8B7B' opacity='0.7' /%3E%3Cpath d='M0,500 Q480,350 960,500 T1920,500 L1920,200 L0,200 Z' fill='url(%23grad1)' opacity='0.6' /%3E%3Cpath d='M0,700 Q480,550 960,700 T1920,700 L1920,400 L0,400 Z' fill='%23FF9A76' opacity='0.5' /%3E%3Cpath d='M1920,600 Q1440,750 960,600 T0,600 L0,1080 L1920,1080 Z' fill='%23FF6B6B' opacity='0.4' /%3E%3C/svg%3E" alt="">
-    <img class="bg-small" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 800'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FF9A76;stop-opacity:1' /%3E%3Cstop offset='100%25' style='stop-color:%23FF8B7B;stop-opacity:0.7' /%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0,200 Q200,100 400,200 T800,200 L800,0 L0,0 Z' fill='%23FF9A76' opacity='0.6' /%3E%3Cpath d='M0,400 Q200,300 400,400 T800,400 L800,150 L0,150 Z' fill='url(%23grad2)' opacity='0.7' /%3E%3Cpath d='M800,500 Q600,600 400,500 T0,500 L0,800 L800,800 Z' fill='%23FF8B7B' opacity='0.5' /%3E%3C/svg%3E" alt="">
+    <img class="bg-main" src="data:image/svg+xml,%3Csvg%20width='1880'%20height='1866'%20viewBox='0%200%201880%201866'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cg%20clip-path='url(%23clip0_9323_314)'%3E%3Crect%20width='1880'%20height='1866'%20rx='40'%20fill='url(%23paint0_linear_9323_314)'/%3E%3Cg%20opacity='0.35'%20filter='url(%23filter0_f_9323_314)'%3E%3Cellipse%20cx='1869.5'%20cy='259.5'%20rx='384.5'%20ry='476.5'%20fill='%23FDBA74'/%3E%3C/g%3E%3Cg%20opacity='0.35'%20filter='url(%23filter1_f_9323_314)'%3E%3Cellipse%20cx='-84'%20cy='781.5'%20rx='357'%20ry='438.5'%20fill='%23FCA5A5'/%3E%3C/g%3E%3Crect%20x='1546.83'%20y='297'%20width='234.11'%20height='527.655'%20transform='rotate(30%201546.83%20297)'%20fill='url(%23paint1_linear_9323_314)'/%3E%3Crect%20x='349.436'%20y='-10'%20width='234.112'%20height='578.872'%20transform='rotate(30%20349.436%20-10)'%20fill='url(%23paint2_linear_9323_314)'/%3E%3Cpath%20d='M121%20937V1046'%20stroke='url(%23paint3_linear_9323_314)'/%3E%3Cpath%20d='M142%201133L142%201209'%20stroke='url(%23paint4_linear_9323_314)'/%3E%3Cpath%20opacity='0.7'%20d='M50%20857L50%20942'%20stroke='url(%23paint5_linear_9323_314)'/%3E%3Cpath%20d='M209%201014L209%201086'%20stroke='url(%23paint6_linear_9323_314)'/%3E%3Cpath%20d='M184%20894L184%20966'%20stroke='url(%23paint7_linear_9323_314)'/%3E%3Cpath%20d='M78%201069L78%201122'%20stroke='url(%23paint8_linear_9323_314)'/%3E%3Cpath%20opacity='0.4'%20d='M175%201096L175%201140'%20stroke='url(%23paint9_linear_9323_314)'/%3E%3Cpath%20opacity='0.2'%20d='M56%20978L56%201029'%20stroke='url(%23paint10_linear_9323_314)'/%3E%3Cpath%20d='M1803%2098V207'%20stroke='url(%23paint11_linear_9323_314)'/%3E%3Cpath%20opacity='0.7'%20d='M1688%2036L1688%20121'%20stroke='url(%23paint12_linear_9323_314)'/%3E%3Cpath%20d='M1737%20162L1737%20234'%20stroke='url(%23paint13_linear_9323_314)'/%3E%3Cpath%20d='M1844%2036L1844%20108'%20stroke='url(%23paint14_linear_9323_314)'/%3E%3Cpath%20d='M1694%20264L1694%20317'%20stroke='url(%23paint15_linear_9323_314)'/%3E%3Cpath%20opacity='0.4'%20d='M1791%20291L1791%20335'%20stroke='url(%23paint16_linear_9323_314)'/%3E%3Cpath%20opacity='0.2'%20d='M1672%20173L1672%20224'%20stroke='url(%23paint17_linear_9323_314)'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter%20id='filter0_f_9323_314'%20x='985'%20y='-717'%20width='1769'%20height='1953'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3E%3CfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3E%3CfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='BackgroundImageFix'%20result='shape'/%3E%3CfeGaussianBlur%20stdDeviation='250'%20result='effect1_foregroundBlur_9323_314'/%3E%3C/filter%3E%3Cfilter%20id='filter1_f_9323_314'%20x='-941'%20y='-157'%20width='1714'%20height='1877'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3E%3CfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3E%3CfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='BackgroundImageFix'%20result='shape'/%3E%3CfeGaussianBlur%20stdDeviation='250'%20result='effect1_foregroundBlur_9323_314'/%3E%3C/filter%3E%3ClinearGradient%20id='paint0_linear_9323_314'%20x1='940'%20y1='0'%20x2='940'%20y2='1866'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='%23FFF7ED'/%3E%3Cstop%20offset='1'%20stop-color='%23FEF2F2'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint1_linear_9323_314'%20x1='1663.88'%20y1='297'%20x2='1663.88'%20y2='824.655'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'%20stop-opacity='0'/%3E%3Cstop%20offset='0.5'%20stop-color='white'%20stop-opacity='0.5'/%3E%3Cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint2_linear_9323_314'%20x1='466.492'%20y1='-10'%20x2='466.492'%20y2='568.872'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'%20stop-opacity='0'/%3E%3Cstop%20offset='0.5'%20stop-color='white'%20stop-opacity='0.5'/%3E%3Cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint3_linear_9323_314'%20x1='121.5'%20y1='937'%20x2='121.5'%20y2='1046'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint4_linear_9323_314'%20x1='142.5'%20y1='1133'%20x2='142.5'%20y2='1209'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint5_linear_9323_314'%20x1='50.5'%20y1='857'%20x2='50.5'%20y2='942'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint6_linear_9323_314'%20x1='209.5'%20y1='1014'%20x2='209.5'%20y2='1086'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint7_linear_9323_314'%20x1='184.5'%20y1='894'%20x2='184.5'%20y2='966'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint8_linear_9323_314'%20x1='78.5'%20y1='1069'%20x2='78.5'%20y2='1122'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint9_linear_9323_314'%20x1='175.5'%20y1='1096'%20x2='175.5'%20y2='1140'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint10_linear_9323_314'%20x1='56.5'%20y1='978'%20x2='56.5'%20y2='1029'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint11_linear_9323_314'%20x1='1803.5'%20y1='98'%20x2='1803.5'%20y2='207'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint12_linear_9323_314'%20x1='1688.5'%20y1='36'%20x2='1688.5'%20y2='121'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint13_linear_9323_314'%20x1='1737.5'%20y1='162'%20x2='1737.5'%20y2='234'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint14_linear_9323_314'%20x1='1844.5'%20y1='36'%20x2='1844.5'%20y2='108'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint15_linear_9323_314'%20x1='1694.5'%20y1='264'%20x2='1694.5'%20y2='317'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint16_linear_9323_314'%20x1='1791.5'%20y1='291'%20x2='1791.5'%20y2='335'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint17_linear_9323_314'%20x1='1672.5'%20y1='173'%20x2='1672.5'%20y2='224'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3CclipPath%20id='clip0_9323_314'%3E%3Crect%20width='1880'%20height='1866'%20rx='40'%20fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E" alt="">
+    <img class="bg-small" src="data:image/svg+xml,%3Csvg%20width='925'%20height='1209'%20viewBox='0%200%20925%201209'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cg%20clip-path='url(%23clip0_9323_560)'%3E%3Crect%20width='925'%20height='1209'%20fill='url(%23paint0_linear_9323_560)'/%3E%3Cg%20opacity='0.35'%20filter='url(%23filter0_f_9323_560)'%3E%3Cellipse%20cx='1100.5'%20cy='259.5'%20rx='384.5'%20ry='476.5'%20fill='%23FF6B6B'/%3E%3C/g%3E%3Cg%20opacity='0.35'%20filter='url(%23filter1_f_9323_560)'%3E%3Cellipse%20cx='-84'%20cy='781.5'%20rx='357'%20ry='438.5'%20fill='%23FF8A80'/%3E%3C/g%3E%3Crect%20x='777.827'%20y='297'%20width='234.11'%20height='527.655'%20transform='rotate(30%20777.827%20297)'%20fill='url(%23paint1_linear_9323_560)'/%3E%3Crect%20x='349.436'%20y='-10'%20width='234.112'%20height='578.872'%20transform='rotate(30%20349.436%20-10)'%20fill='url(%23paint2_linear_9323_560)'/%3E%3Cpath%20d='M121%20937V1046'%20stroke='url(%23paint3_linear_9323_560)'/%3E%3Cpath%20d='M142%201133L142%201209'%20stroke='url(%23paint4_linear_9323_560)'/%3E%3Cpath%20opacity='0.7'%20d='M50%20857L50%20942'%20stroke='url(%23paint5_linear_9323_560)'/%3E%3Cpath%20d='M209%201014L209%201086'%20stroke='url(%23paint6_linear_9323_560)'/%3E%3Cpath%20d='M184%20894L184%20966'%20stroke='url(%23paint7_linear_9323_560)'/%3E%3Cpath%20d='M78%201069L78%201122'%20stroke='url(%23paint8_linear_9323_560)'/%3E%3Cpath%20opacity='0.4'%20d='M175%201096L175%201140'%20stroke='url(%23paint9_linear_9323_560)'/%3E%3Cpath%20opacity='0.2'%20d='M56%20978L56%201029'%20stroke='url(%23paint10_linear_9323_560)'/%3E%3Cpath%20opacity='0.7'%20d='M919%2036L919%20121'%20stroke='url(%23paint11_linear_9323_560)'/%3E%3Cpath%20d='M925%20264L925%20317'%20stroke='url(%23paint12_linear_9323_560)'/%3E%3Cpath%20opacity='0.2'%20d='M903%20173L903%20224'%20stroke='url(%23paint13_linear_9323_560)'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter%20id='filter0_f_9323_560'%20x='216'%20y='-717'%20width='1769'%20height='1953'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3E%3CfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3E%3CfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='BackgroundImageFix'%20result='shape'/%3E%3CfeGaussianBlur%20stdDeviation='250'%20result='effect1_foregroundBlur_9323_560'/%3E%3C/filter%3E%3Cfilter%20id='filter1_f_9323_560'%20x='-941'%20y='-157'%20width='1714'%20height='1877'%20filterUnits='userSpaceOnUse'%20color-interpolation-filters='sRGB'%3E%3CfeFlood%20flood-opacity='0'%20result='BackgroundImageFix'/%3E%3CfeBlend%20mode='normal'%20in='SourceGraphic'%20in2='BackgroundImageFix'%20result='shape'/%3E%3CfeGaussianBlur%20stdDeviation='250'%20result='effect1_foregroundBlur_9323_560'/%3E%3C/filter%3E%3ClinearGradient%20id='paint0_linear_9323_560'%20x1='462.5'%20y1='0'%20x2='462.5'%20y2='1209'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='%23FFE5E0'/%3E%3Cstop%20offset='1'%20stop-color='%23FFD6CC'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint1_linear_9323_560'%20x1='894.882'%20y1='297'%20x2='894.882'%20y2='824.655'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'%20stop-opacity='0'/%3E%3Cstop%20offset='0.5'%20stop-color='white'%20stop-opacity='0.5'/%3E%3Cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint2_linear_9323_560'%20x1='466.492'%20y1='-10'%20x2='466.492'%20y2='568.872'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'%20stop-opacity='0'/%3E%3Cstop%20offset='0.5'%20stop-color='white'%20stop-opacity='0.5'/%3E%3Cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint3_linear_9323_560'%20x1='121.5'%20y1='937'%20x2='121.5'%20y2='1046'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint4_linear_9323_560'%20x1='142.5'%20y1='1133'%20x2='142.5'%20y2='1209'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint5_linear_9323_560'%20x1='50.5'%20y1='857'%20x2='50.5'%20y2='942'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint6_linear_9323_560'%20x1='209.5'%20y1='1014'%20x2='209.5'%20y2='1086'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint7_linear_9323_560'%20x1='184.5'%20y1='894'%20x2='184.5'%20y2='966'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint8_linear_9323_560'%20x1='78.5'%20y1='1069'%20x2='78.5'%20y2='1122'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint9_linear_9323_560'%20x1='175.5'%20y1='1096'%20x2='175.5'%20y2='1140'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint10_linear_9323_560'%20x1='56.5'%20y1='978'%20x2='56.5'%20y2='1029'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint11_linear_9323_560'%20x1='919.5'%20y1='36'%20x2='919.5'%20y2='121'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint12_linear_9323_560'%20x1='925.5'%20y1='264'%20x2='925.5'%20y2='317'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3ClinearGradient%20id='paint13_linear_9323_560'%20x1='903.5'%20y1='173'%20x2='903.5'%20y2='224'%20gradientUnits='userSpaceOnUse'%3E%3Cstop%20stop-color='white'/%3E%3Cstop%20offset='0.958275'%20stop-color='white'%20stop-opacity='0'/%3E%3C/linearGradient%3E%3CclipPath%20id='clip0_9323_560'%3E%3Crect%20width='925'%20height='1209'%20fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E" alt="">
 </div>
 
 <nav class="navbar" aria-label="Primary">
@@ -566,319 +870,838 @@
         <span class="logo text-gradient">SAFFRON</span>
     </a>
     <div class="nav-buttons">
-        <a href="#jobSearchForm" class="nav-btn">Job Search</a>
-        <a href="/upload" class="nav-btn nav-btn-primary">Upload Resume</a>
+        <a href="job_search.html" class="nav-btn">Job Search</a>
+        <a href="/upload" class="nav-btn">Resume Scanner</a>
         <a href="job_tracker.html" class="nav-btn">Job Tracker</a>
     </div>
 </nav>
 
-
-
-
 <main>
     <div class="container">
-        <div class="page-heading">
-            <h1>Find Your Next Opportunity</h1>
-            <p class="subtitle">Search across multiple major job boards with accurate location filtering and remote job detection</p>
-        </div>
-        <div class="search-section">
-            <div style="margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid #e5e7eb;">
-                <a href="https://serpapi.com" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; font-size: 0.8rem; font-weight: 600; color: white; background: linear-gradient(to bottom, #FF8B7B, #FF6B6B); border-radius: 9999px; text-decoration: none; transition: all 0.3s; margin-bottom: 1rem;" onmouseover="this.style.background='linear-gradient(to bottom, #FF7A6A, #FF5252)'; this.style.transform='translateY(-1px)';" onmouseout="this.style.background='linear-gradient(to bottom, #FF8B7B, #FF6B6B)'; this.style.transform='translateY(0)';">
-                    Get SerpAPI Key ↗
-                </a>
-                <h3 style="font-size: 1rem; margin-bottom: 1rem; color: var(--text);">⚙️ API Configuration</h3>
-                <div style="display: flex; gap: 1rem; align-items: flex-end;">
-                    <div class="form-group" style="flex: 1;">
-                        <label for="serpapiKey">SerpAPI Key</label>
-                        <input type="password" id="serpapiKey" placeholder="Enter your SerpAPI key">
-                    </div>
-                    <button type="button" id="saveKeyBtn" style="padding: 0.75rem 1.5rem; font-size: 0.9rem;">Save Key</button>
-                </div>
-                <small id="configStatus" style="margin-top: 0.5rem;"></small>
-            </div>
-
-            <form id="jobSearchForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="jobTitle">Job Title / Keywords</label>
-                        <input
-                                type="text"
-                                id="jobTitle"
-                                name="jobTitle"
-                                placeholder="e.g., Software Engineer, Nurse, Teacher, Accountant"
-                                required
-                        >
-                        <small>💡 Be specific for best results (e.g., "Registered Nurse" vs just "Nurse")</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Exact Location</label>
-                        <select id="location" name="location" required>
-                            <option value="">Select a location...</option>
-                            <option value="Remote">Remote</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="timeFrame">Time Frame</label>
-                        <select id="timeFrame" name="timeFrame">
-                            <option value="any">Any Time</option>
-                            <option value="24h">Past 24 Hours</option>
-                            <option value="week">Past Week</option>
-                            <option value="month">Past Month</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="jobLevel">Job Level</label>
-                        <select id="jobLevel" name="jobLevel">
-                            <option value="any">Any Level</option>
-                            <option value="internship">Internship</option>
-                            <option value="entry_level">Entry Level</option>
-                            <option value="mid_level">Mid Level</option>
-                            <option value="senior_level">Senior Level</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="radius">Search Radius (miles)</label>
-                        <select id="radius" name="radius">
-                            <option value="0">Exact location only</option>
-                            <option value="5">Within 5 miles</option>
-                            <option value="10" selected>Within 10 miles</option>
-                            <option value="25">Within 25 miles</option>
-                            <option value="50">Within 50 miles</option>
-                            <option value="100">Within 100 miles</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" id="searchBtn">
-                    <span>Search Job Boards</span>
-                </button>
-            </form>
+        <!-- Hero Text -->
+        <div class="hero-text">
+            <h1>Track Your Job Applications</h1>
+            <p class="subtitle">Stay organized and never miss a follow-up with your personal job application tracker</p>
         </div>
 
-        <div id="resultsSection" style="display: none;">
-            <div class="results">
-                <div class="info-box">
-                    <strong>🎯 Real-Time Job Results via SerpAPI</strong><br>
-                    Showing actual job listings for "<span id="displayQuery"></span>" in "<span id="displayLocation"></span>".
-                    Results are fetched from Google Jobs using SerpAPI.
-                </div>
+        <!-- Configure Automation Button -->
+        <div class="add-job-container">
+            <button class="btn" onclick="openSetupModal()">Configure Automation Tracker</button>
+        </div>
 
-                <div class="results-header">
-                    <h2>Job Results</h2>
-                    <span class="result-count" id="resultCount"></span>
-                </div>
+        <!-- Sheet Sync Banner -->
+        <div class="sync-banner">
+            <span class="sync-label">📊 Auto-sync from Sheets</span>
+            <input
+                    type="url"
+                    id="sheetCsvUrl"
+                    class="sync-url-input"
+                    placeholder="Paste your Google Sheet published CSV URL here…"
+            />
+            <button class="btn-sync" id="syncBtn" onclick="syncFromSheet()">Sync Now</button>
+            <span class="sync-status" id="syncStatus"></span>
+        </div>
 
-                <div id="jobResults"></div>
-                <div id="loadMoreContainer" class="load-more-container" style="display: none;">
-                    <button id="loadMoreBtn" class="primary-button">
-                        <span>Load More Jobs</span>
-                    </button>
-                </div>
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="stat-total">0</div>
+                <div class="stat-label">Total Applications</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-interview">0</div>
+                <div class="stat-label">Interviews</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-offer">0</div>
+                <div class="stat-label">Offers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stat-response">0%</div>
+                <div class="stat-label">Response Rate</div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Section -->
+        <div class="search-filter-section">
+            <div class="search-box">
+                <input type="text" id="searchInput" class="search-input" placeholder="🔍 Search by company, position, or location...">
+            </div>
+            <div class="filter-controls">
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All Statuses</option>
+                    <option value="Applied">Applied</option>
+                    <option value="Interview">Interview</option>
+                    <option value="Offer">Offer</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <select id="sortBy" class="filter-select">
+                    <option value="date-desc">Newest First</option>
+                    <option value="date-asc">Oldest First</option>
+                    <option value="company">Company A-Z</option>
+                    <option value="position">Position A-Z</option>
+                </select>
+                <button class="btn-reset" onclick="resetFilters()">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Jobs List -->
+        <div id="jobs-container"></div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">🎯</div>
+            <div class="empty-title">No job applications yet</div>
+            <div class="empty-text">Set up your automation tracker to start automatically importing applications from your Gmail</div>
+            <button class="btn" onclick="openSetupModal()">⚙️ Configure Automation Tracker</button>
         </div>
     </div>
 </main>
 
-<script>
-    // Constants for US Cities and States
-    const US_CITIES = [
-        "New York, NY", "Los Angeles, CA", "Chicago, IL", "Houston, TX", "Phoenix, AZ",
-        "Philadelphia, PA", "San Antonio, TX", "San Diego, CA", "Dallas, TX", "San Jose, CA",
-        "Austin, TX", "Jacksonville, FL", "Fort Worth, TX", "Columbus, OH", "San Francisco, CA",
-        "Charlotte, NC", "Indianapolis, IN", "Seattle, WA", "Denver, CO", "Washington, DC",
-        "Boston, MA", "El Paso, TX", "Nashville, TN", "Detroit, MI", "Oklahoma City, OK",
-        "Portland, OR", "Las Vegas, NV", "Memphis, TN", "Louisville, KY", "Baltimore, MD",
-        "Milwaukee, WI", "Albuquerque, NM", "Tucson, AZ", "Fresno, CA", "Sacramento, CA",
-        "Kansas City, MO", "Mesa, AZ", "Atlanta, GA", "Omaha, NE", "Colorado Springs, CO",
-        "Raleigh, NC", "Miami, FL", "Virginia Beach, VA", "Oakland, CA", "Minneapolis, MN",
-        "Tulsa, OK", "Arlington, TX", "New Orleans, LA", "Wichita, KS", "Cleveland, OH",
-        "Tampa, FL", "Bakersfield, CA", "Aurora, CO", "Anaheim, CA", "Honolulu, HI",
-        "Santa Ana, CA", "Riverside, CA", "Corpus Christi, TX", "Lexington, KY", "Stockton, CA",
-        "Henderson, NV", "Saint Paul, MN", "St. Louis, MO", "Cincinnati, OH", "Pittsburgh, PA",
-        "Greensboro, NC", "Anchorage, AK", "Plano, TX", "Lincoln, NE", "Orlando, FL",
-        "Irvine, CA", "Newark, NJ", "Toledo, OH", "Durham, NC", "Chula Vista, CA",
-        "Fort Wayne, IN", "Jersey City, NJ", "St. Petersburg, FL", "Laredo, TX", "Madison, WI",
-        "Chandler, AZ", "Buffalo, NY", "Lubbock, TX", "Scottsdale, AZ", "Reno, NV",
-        "Glendale, AZ", "Gilbert, AZ", "Winston-Salem, NC", "North Las Vegas, NV", "Norfolk, VA",
-        "Chesapeake, VA", "Garland, TX", "Irving, TX", "Hialeah, FL", "Fremont, CA",
-        "Boise, ID", "Richmond, VA", "Baton Rouge, LA", "Spokane, WA", "Des Moines, IA"
-    ];
+<!-- Setup Instructions Modal -->
+<div id="setup-modal" class="modal-overlay">
+    <div class="modal" style="max-width:680px;" onclick="event.stopPropagation()">
+        <div class="modal-header">
+            <h2 class="modal-title" id="modal-title">⚙️ Configure Automation Tracker</h2>
+            <button class="close-btn" onclick="closeSetupModal()">×</button>
+        </div>
+        <p style="font-size:0.9rem;color:#6b7280;margin-bottom:1.5rem;line-height:1.6;">Follow the steps below to connect your Gmail to this tracker. Once configured, your job applications will be scanned and imported automatically every 5 minutes.</p>
 
-    // Populate Location Dropdown
-    const locationSelect = document.getElementById('location');
-    US_CITIES.sort().forEach(city => {
-        const option = document.createElement('option');
-        option.value = city;
-        option.textContent = city;
-        locationSelect.appendChild(option);
-    });
+        <div class="setup-steps">
 
-    // API Key Configuration Logic
-    const serpapiKeyInput = document.getElementById('serpapiKey');
-    const saveKeyBtn = document.getElementById('saveKeyBtn');
-    const configStatus = document.getElementById('configStatus');
-
-    saveKeyBtn.addEventListener('click', async () => {
-        const apiKey = serpapiKeyInput.value.trim();
-        if (!apiKey) {
-            alert('Please enter a SerpAPI key');
-            return;
-        }
-
-        saveKeyBtn.disabled = true;
-        configStatus.textContent = 'Saving...';
-        configStatus.style.color = 'var(--text)';
-
-        try {
-            const response = await fetch('/api/config', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ apiKey })
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                configStatus.textContent = '✅ SerpAPI key saved and configured!';
-                configStatus.style.color = 'green';
-                serpapiKeyInput.value = '';
-            } else {
-                throw new Error(data.error || 'Failed to save key');
-            }
-        } catch (error) {
-            configStatus.textContent = `❌ Error: ${error.message}`;
-            configStatus.style.color = 'red';
-        } finally {
-            saveKeyBtn.disabled = false;
-        }
-    });
-
-    const form = document.getElementById('jobSearchForm');
-    const resultsSection = document.getElementById('resultsSection');
-    const jobResults = document.getElementById('jobResults');
-    const resultCount = document.getElementById('resultCount');
-    const displayQuery = document.getElementById('displayQuery');
-    const displayLocation = document.getElementById('displayLocation');
-    const loadMoreContainer = document.getElementById('loadMoreContainer');
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
-
-    let allJobs = [];
-    let displayedCount = 0;
-    const JOBS_PER_PAGE = 10;
-    const MAX_JOBS = 10;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const jobTitle = document.getElementById('jobTitle').value.trim();
-        const location = document.getElementById('location').value;
-        const radius = document.getElementById('radius').value;
-        const timeFrame = document.getElementById('timeFrame').value;
-        const jobLevel = document.getElementById('jobLevel').value;
-
-        if (!jobTitle || !location) {
-            alert('Please fill in both job title and location');
-            return;
-        }
-
-        // Show results
-        resultsSection.style.display = 'block';
-        displayQuery.textContent = jobTitle;
-        displayLocation.textContent = location;
-
-        // Reset state
-        allJobs = [];
-        displayedCount = 0;
-        jobResults.innerHTML = '';
-        loadMoreContainer.style.display = 'none';
-
-        // Show loading state
-        jobResults.innerHTML = '<div class="loading">Searching for jobs...<div class="loading-progress">Fetching real-time results from SerpAPI</div></div>';
-
-        // Scroll to results
-        resultsSection.scrollIntoView({ behavior: 'smooth' });
-
-        try {
-            const apiUrl = `/api/job-search?jobTitle=${encodeURIComponent(jobTitle)}&location=${encodeURIComponent(location)}&radius=${radius}&timeFrame=${timeFrame}&jobLevel=${jobLevel}&limit=${MAX_JOBS}`;
-            const response = await fetch(apiUrl);
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.error || 'Failed to fetch jobs');
-            }
-
-            if (data.success && data.jobs.length > 0) {
-                allJobs = data.jobs;
-                resultCount.textContent = `${data.totalResults} jobs found`;
-                jobResults.innerHTML = ''; // Clear loading
-                displayNextJobs();
-            } else {
-                jobResults.innerHTML = `
-                    <div class="no-results">
-                        <h3>No jobs found</h3>
-                        <p>Try searching with different keywords, location, or a wider time frame.</p>
-                    </div>
-                `;
-                resultCount.textContent = '0 jobs found';
-            }
-        } catch (error) {
-            console.error('Error fetching jobs:', error);
-            jobResults.innerHTML = `
-                <div class="warning-box">
-                    <strong>⚠️ Error fetching jobs:</strong><br>
-                    ${escapeHtml(error.message)}
+            <div class="setup-step">
+                <div class="step-num">1</div>
+                <div class="step-content">
+                    <div class="step-title">Open Google Sheets</div>
+                    <div class="step-desc">Visit <a href="https://workspace.google.com/products/sheets/" target="_blank" rel="noopener">Google Sheets</a> and create a new blank spreadsheet. Name it whatever you like — for example, <strong>Job Tracker</strong>.</div>
                 </div>
-            `;
-        }
-    });
-
-    function displayNextJobs() {
-        const nextJobs = allJobs.slice(displayedCount, displayedCount + JOBS_PER_PAGE);
-
-        const jobsHtml = nextJobs.map((job, index) => {
-            const applyLink = job.link || (job.allLinks && job.allLinks.length > 0 ? job.allLinks[0] : null);
-
-            return `
-            <div class="job-card" style="animation-delay: ${(index % JOBS_PER_PAGE) * 0.1}s">
-                <span class="source-badge">🔍 Google Jobs (via SerpAPI)</span>
-                <div class="job-header">
-                    <h3 class="job-title">${escapeHtml(job.title)}</h3>
-                    ${applyLink ? `<a href="${applyLink}" target="_blank" rel="noopener noreferrer" class="job-link">
-                        Apply Now →
-                    </a>` : ''}
-                </div>
-                <div class="job-meta">
-                    <div class="meta-item"><strong>Company:</strong>${escapeHtml(job.company)}</div>
-                    <div class="meta-item"><strong>Location:</strong>${escapeHtml(job.location)}</div>
-                    ${job.salary ? `<div class="meta-item"><strong>Salary:</strong>${escapeHtml(job.salary)}</div>` : ''}
-                    ${job.jobType ? `<div class="meta-item"><strong>Type:</strong>${escapeHtml(job.jobType)}</div>` : ''}
-                    ${job.postedAt ? `<div class="meta-item"><strong>Posted:</strong>${escapeHtml(job.postedAt)}</div>` : ''}
-                </div>
-                ${job.description ? `<p class="job-snippet">${escapeHtml(job.description.substring(0, 300))}${job.description.length > 300 ? '...' : ''}</p>` : ''}
             </div>
-        `}).join('');
 
-        jobResults.insertAdjacentHTML('beforeend', jobsHtml);
-        displayedCount += nextJobs.length;
+            <div class="setup-step">
+                <div class="step-num">2</div>
+                <div class="step-content">
+                    <div class="step-title">Open Apps Script</div>
+                    <div class="step-desc">In your spreadsheet, click <strong>Extensions</strong> in the top menu bar, then select <strong>Apps Script</strong>. A new code editor tab will open.</div>
+                </div>
+            </div>
 
-        if (displayedCount < allJobs.length) {
-            loadMoreContainer.style.display = 'block';
-        } else {
-            loadMoreContainer.style.display = 'none';
+            <div class="setup-step">
+                <div class="step-num">3</div>
+                <div class="step-content">
+                    <div class="step-title">Paste the Tracker Script</div>
+                    <div class="step-desc">Clear all existing code in the editor, then copy the script below and paste it in. Give the project a name (e.g., <em>Job Tracker Automation</em>) and save with <strong>Ctrl+S</strong> (or <strong>Cmd+S</strong> on Mac).</div>
+                    <div class="code-copy-box">
+                        <div class="code-copy-header">
+                            <span class="code-label">tracker.gs</span>
+                            <button class="copy-btn" id="copyCodeBtn" onclick="copyTrackerCode()">📋 Copy Code</button>
+                        </div>
+                        <pre class="code-preview">// JOB APPLICATION TRACKER — Integrated Version
+// Paste this entire script into Apps Script, then run initialSetup()
+const CONFIG = { SHEET_NAME: 'Sheet1', POLL_MINUTES: 5, ... }
+...</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="setup-step">
+                <div class="step-num">4</div>
+                <div class="step-content">
+                    <div class="step-title">Run the Script</div>
+                    <div class="step-desc">In the function dropdown at the top, select <strong>initialSetup</strong>, then click the <strong>Run</strong> button (▶). An authorization prompt will appear — this is expected.</div>
+                </div>
+            </div>
+
+            <div class="setup-step">
+                <div class="step-num">5</div>
+                <div class="step-content">
+                    <div class="step-title">Authorize Access</div>
+                    <div class="step-desc">Click <strong>Review Permissions</strong>. You may see a warning that says <em>"Google hasn't verified this app"</em> — this is normal for personal scripts. Click <strong>Advanced</strong>, then <strong>Go to [your project name] (unsafe)</strong> to proceed.</div>
+                </div>
+            </div>
+
+            <div class="setup-step">
+                <div class="step-num">6</div>
+                <div class="step-content">
+                    <div class="step-title">Grant Permissions</div>
+                    <div class="step-desc">On the permissions screen, click <strong>Select All</strong> to grant the necessary Gmail and Sheets access, then click <strong>Continue</strong>. The script will begin its initial Gmail scan.</div>
+                </div>
+            </div>
+
+            <div class="setup-step">
+                <div class="step-num">7</div>
+                <div class="step-content">
+                    <div class="step-title">Publish Your Sheet as CSV</div>
+                    <div class="step-desc">Return to your Google Sheet. Go to <strong>File → Share → Publish to the Web</strong>. In the first dropdown, select <strong>Sheet1</strong>. In the second dropdown, select <strong>Comma-separated values (.csv)</strong>. Click <strong>Publish</strong> and confirm.</div>
+                </div>
+            </div>
+
+            <div class="setup-step">
+                <div class="step-num">8</div>
+                <div class="step-content">
+                    <div class="step-title">Connect to Saffron</div>
+                    <div class="step-desc">Copy the published CSV link and paste it into the <strong>Auto-sync from Sheets</strong> field at the top of this page, then click <strong>Sync Now</strong>. Your applications will appear immediately.</div>
+                </div>
+            </div>
+
+            <div class="setup-complete">
+                🎉 <strong>You're all set!</strong> The tracker will automatically scan your Gmail for new job application emails every 5 minutes and sync them here.
+            </div>
+
+        </div>
+
+        <div class="form-actions" style="margin-top:1.5rem;">
+            <button type="button" class="btn" onclick="closeSetupModal()">Got it, close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // STATE
+    // ============================================================
+    let jobs = [];          // manually added jobs (stored in localStorage)
+    let sheetJobs = [];     // auto-synced jobs from Google Sheet
+    let editingId = null;
+
+    // ============================================================
+    // INIT — load manual jobs + restore sheet URL + auto-sync
+    // ============================================================
+    function init() {
+        loadManualJobs();
+
+        const savedUrl = localStorage.getItem('saffron-sheet-url');
+        if (savedUrl) {
+            document.getElementById('sheetCsvUrl').value = savedUrl;
+            syncFromSheet(true); // silent initial sync
+        }
+
+        renderJobs();
+    }
+
+    // ============================================================
+    // MANUAL JOBS — localStorage
+    // ============================================================
+    function loadManualJobs() {
+        const stored = localStorage.getItem('job-tracker-jobs');
+        if (stored) {
+            try { jobs = JSON.parse(stored); } catch(e) { jobs = []; }
         }
     }
 
-    loadMoreBtn.addEventListener('click', () => {
-        displayNextJobs();
-    });
+    async function saveJobs() {
+        localStorage.setItem('job-tracker-jobs', JSON.stringify(jobs));
+    }
 
+    // ============================================================
+    // GOOGLE SHEETS SYNC
+    // ============================================================
+    async function syncFromSheet(silent = false) {
+        const urlInput = document.getElementById('sheetCsvUrl');
+        const statusEl = document.getElementById('syncStatus');
+        const syncBtn = document.getElementById('syncBtn');
+        const url = urlInput.value.trim();
+
+        if (!url) {
+            if (!silent) setStatus('Please paste your published CSV URL first.', 'error');
+            return;
+        }
+
+        // Save URL for next visit
+        localStorage.setItem('saffron-sheet-url', url);
+
+        if (!silent) {
+            syncBtn.disabled = true;
+            syncBtn.textContent = 'Syncing…';
+            setStatus('Fetching from Google Sheets…', '');
+        }
+
+        try {
+            // Add a cache-buster so we always get fresh data
+            const fetchUrl = url.includes('?') ? url + '&t=' + Date.now() : url + '?t=' + Date.now();
+            const res = await fetch(fetchUrl);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const csv = await res.text();
+            sheetJobs = parseSheetCsv(csv);
+            renderJobs();
+
+            const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            setStatus(`✓ Synced ${sheetJobs.length} jobs at ${now}`, 'success');
+        } catch (err) {
+            console.error('Sheet sync error:', err);
+            if (!silent) setStatus('Failed to fetch sheet. Check the URL and make sure it\'s published as CSV.', 'error');
+        } finally {
+            if (!silent) {
+                syncBtn.disabled = false;
+                syncBtn.textContent = 'Sync Now';
+            }
+        }
+    }
+
+    function setStatus(msg, cls) {
+        const el = document.getElementById('syncStatus');
+        el.textContent = msg;
+        el.className = 'sync-status ' + cls;
+    }
+
+    // Parse CSV from Google Sheets
+    // Apps Script columns: ThreadID(0), Company(1), Position(2), Location(3), Status(4), Date(5), JobURL(6), Notes(7)
+    function parseSheetCsv(csv) {
+        const lines = csv.trim().split('\n');
+        if (lines.length < 2) return [];
+
+        const result = [];
+        for (let i = 1; i < lines.length; i++) {
+            const cols = splitCsvLine(lines[i]);
+            if (cols.length < 5) continue;
+
+            const company = (cols[1] || '').trim();
+            const position = (cols[2] || '').trim();
+            if (!company && !position) continue;
+
+            result.push({
+                id: 'sheet-' + i,
+                source: 'sheet',
+                company: company || 'Unknown Company',
+                position: position || 'Position Unknown',
+                location: (cols[3] || '').trim() || 'Not specified',
+                status: normalizeStatus(cols[4]),
+                dateApplied: (cols[5] || '').trim(),
+                salary: '',
+                jobUrl: (cols[6] || '').trim(),
+                notes: (cols[7] || '').trim(),
+            });
+        }
+        return result;
+    }
+
+    // Basic CSV line splitter (handles quoted fields)
+    function splitCsvLine(line) {
+        const result = [];
+        let current = '';
+        let inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+            const ch = line[i];
+            if (ch === '"') {
+                inQuotes = !inQuotes;
+            } else if (ch === ',' && !inQuotes) {
+                result.push(current);
+                current = '';
+            } else {
+                current += ch;
+            }
+        }
+        result.push(current);
+        return result;
+    }
+
+    function normalizeStatus(raw) {
+        const s = (raw || '').trim().toLowerCase();
+        if (s === 'interview') return 'Interview';
+        if (s === 'offer') return 'Offer';
+        if (s === 'rejected') return 'Rejected';
+        return 'Applied';
+    }
+
+    // ============================================================
+    // RENDER — merges sheet jobs + manual jobs
+    // ============================================================
+    function renderJobs() {
+        const container = document.getElementById('jobs-container');
+        const emptyState = document.getElementById('empty-state');
+
+        // Merge: sheet jobs first, then manual jobs
+        // De-duplicate by company+position in case user manually added something that's also in the sheet
+        const allJobs = [...sheetJobs, ...jobs.map(j => ({ ...j, source: 'manual' }))];
+
+        // Get filter values
+        const searchTerm = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        const statusFilter = document.getElementById('statusFilter')?.value || 'all';
+        const sortBy = document.getElementById('sortBy')?.value || 'date-desc';
+
+        // Filter
+        let filteredJobs = allJobs.filter(job => {
+            const matchesSearch =
+                job.company.toLowerCase().includes(searchTerm) ||
+                job.position.toLowerCase().includes(searchTerm) ||
+                (job.location || '').toLowerCase().includes(searchTerm);
+            const matchesStatus = statusFilter === 'all' || job.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+
+        // Sort
+        filteredJobs.sort((a, b) => {
+            switch(sortBy) {
+                case 'date-desc': return new Date(b.dateApplied) - new Date(a.dateApplied);
+                case 'date-asc':  return new Date(a.dateApplied) - new Date(b.dateApplied);
+                case 'company':   return a.company.localeCompare(b.company);
+                case 'position':  return a.position.localeCompare(b.position);
+                default:          return 0;
+            }
+        });
+
+        if (filteredJobs.length === 0) {
+            container.innerHTML = '';
+            if (allJobs.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-title">No matching applications</div>
+                        <div class="empty-text">Try adjusting your search or filters</div>
+                    </div>
+                `;
+                emptyState.classList.add('hidden');
+            }
+        } else {
+            emptyState.classList.add('hidden');
+            container.innerHTML = filteredJobs.map(job => {
+                const isSheet = job.source === 'sheet';
+                const sourceBadge = isSheet
+                    ? `<span class="source-badge source-sheet">📊 Auto</span>`
+                    : `<span class="source-badge source-manual">✍️ Manual</span>`;
+                const actions = isSheet
+                    ? `<span style="font-size:0.8rem;color:#9ca3af;padding:0.5rem 0;">Auto-imported · Edit in Google Sheets</span>`
+                    : `<span style="font-size:0.8rem;color:#9ca3af;padding:0.5rem 0;">Manually added</span>`;
+
+                return `
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div>
+                                <div class="job-title">${escapeHtml(job.position)}${sourceBadge}</div>
+                                <div class="job-company">${escapeHtml(job.company)}</div>
+                            </div>
+                            <span class="status-badge status-${job.status.toLowerCase()}">${job.status}</span>
+                        </div>
+
+                        <div class="job-meta">
+                            <div class="meta-item">
+                                <span>📍</span>
+                                <span>${escapeHtml(job.location || 'Not specified')}</span>
+                            </div>
+                            ${job.dateApplied ? `
+                            <div class="meta-item">
+                                <span>📅</span>
+                                <span>Applied ${job.dateApplied}</span>
+                            </div>` : ''}
+                            ${job.salary ? `
+                            <div class="meta-item">
+                                <span>💰</span>
+                                <span>${escapeHtml(job.salary)}</span>
+                            </div>` : ''}
+                            ${job.jobUrl ? `
+                            <div class="meta-item">
+                                <span>🔗</span>
+                                <a href="${job.jobUrl.replace(/"/g, '%22')}" target="_blank" rel="noopener noreferrer">View in Gmail</a>
+                            </div>` : ''}
+                        </div>
+
+                        ${job.notes ? `
+                        <div class="job-notes">
+                            <strong>Notes:</strong> ${escapeHtml(job.notes)}
+                        </div>` : ''}
+
+                        <div class="job-actions">${actions}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        updateStats([...sheetJobs, ...jobs]);
+    }
+
+    // Update stats
+    function updateStats(allJobs) {
+        if (!allJobs) allJobs = [...sheetJobs, ...jobs];
+        const total = allJobs.length;
+        const interviews = allJobs.filter(j => j.status === 'Interview').length;
+        const offers = allJobs.filter(j => j.status === 'Offer').length;
+        const responses = interviews + offers;
+        const responseRate = total > 0 ? Math.round((responses / total) * 100) : 0;
+
+        document.getElementById('stat-total').textContent = total;
+        document.getElementById('stat-response').textContent = responseRate + '%';
+        document.getElementById('stat-interview').textContent = interviews;
+        document.getElementById('stat-offer').textContent = offers;
+    }
+
+    // Full tracker.gs code for clipboard copy
+    const TRACKER_GS_CODE = '// ============================================================\n' +
+        '// JOB APPLICATION TRACKER — Integrated Version (Handshake + Indeed)\n' +
+        '// ============================================================\n' +
+        '\n' +
+        'const CONFIG = {\n' +
+        '  INITIAL_SCAN_DAYS: 90,\n' +
+        '\n' +
+        '  GMAIL_QUERY: [\n' +
+        '    \'subject:(application received)\',\n' +
+        '    \'subject:(thank you for applying)\',\n' +
+        '    \'subject:(thank you for your application)\',\n' +
+        '    \'subject:(we received your application)\',\n' +
+        '    \'subject:(application submitted)\',\n' +
+        '    \'subject:(application confirmation)\',\n' +
+        '    \'subject:(your application to)\',\n' +
+        '    \'subject:(application for)\',\n' +
+        '    \'subject:(You applied to)\',     // Handshake\n' +
+        '    \'subject:(Indeed Application)\', // Indeed\n' +
+        '    \'subject:(interview invitation)\',\n' +
+        '    \'subject:(interview request)\',\n' +
+        '    \'subject:(next steps)\',\n' +
+        '    \'subject:(offer letter)\',\n' +
+        '    \'subject:(job offer)\',\n' +
+        '    \'subject:(unfortunately) application\',\n' +
+        '    \'subject:(we regret) application\',\n' +
+        '    \'subject:(not moving forward)\',\n' +
+        '  ].join(\' OR \'),\n' +
+        '\n' +
+        '  SHEET_NAME: \'Sheet1\',\n' +
+        '  COLS: { threadId: 0, company: 1, position: 2, location: 3, status: 4, date: 5, jobUrl: 6, notes: 7 },\n' +
+        '  POLL_MINUTES: 5,\n' +
+        '};\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// ONE-CLICK SETUP\n' +
+        '// ============================================================\n' +
+        'function initialSetup() {\n' +
+        '  Logger.log(\'=== Job Tracker: Initial Setup ===\');\n' +
+        '  getOrCreateSheet();\n' +
+        '\n' +
+        '  const props = PropertiesService.getScriptProperties();\n' +
+        '  props.deleteProperty(\'lastRun\');\n' +
+        '\n' +
+        '  scanGmailForJobs();\n' +
+        '  installPollingTrigger();\n' +
+        '  setupGmailWatch();\n' +
+        '\n' +
+        '  SpreadsheetApp.getActiveSpreadsheet().toast(\n' +
+        '    \'Setup complete! Scanning for Handshake, Indeed, and direct applications.\',\n' +
+        '    \'✅ Job Tracker Ready\', 8\n' +
+        '  );\n' +
+        '}\n' +
+        '\n' +
+        'function scanGmailForJobs() {\n' +
+        '  const sheet = getOrCreateSheet();\n' +
+        '  const existingThreadIds = getExistingThreadIds(sheet);\n' +
+        '\n' +
+        '  const props = PropertiesService.getScriptProperties();\n' +
+        '  const lastRun = props.getProperty(\'lastRun\');\n' +
+        '\n' +
+        '  const afterDate = lastRun\n' +
+        '    ? new Date(parseInt(lastRun) - 10 * 60 * 1000)\n' +
+        '    : new Date(Date.now() - CONFIG.INITIAL_SCAN_DAYS * 24 * 60 * 60 * 1000);\n' +
+        '\n' +
+        '  const afterStr = Utilities.formatDate(afterDate, \'GMT\', \'yyyy/MM/dd\');\n' +
+        '  const query = `(${CONFIG.GMAIL_QUERY}) after:${afterStr}`;\n' +
+        '\n' +
+        '  Logger.log(`Scanning Gmail since ${afterStr}...`);\n' +
+        '  const threads = GmailApp.search(query, 0, 100);\n' +
+        '\n' +
+        '  for (const thread of threads) {\n' +
+        '    const threadId = thread.getId();\n' +
+        '    if (existingThreadIds.has(threadId)) continue;\n' +
+        '\n' +
+        '    const info = extractJobInfo(thread);\n' +
+        '    if (!info) continue;\n' +
+        '\n' +
+        '    sheet.appendRow([\n' +
+        '      threadId, info.company, info.position, info.location,\n' +
+        '      info.status, info.date, info.jobUrl, info.notes,\n' +
+        '    ]);\n' +
+        '    existingThreadIds.add(threadId);\n' +
+        '  }\n' +
+        '\n' +
+        '  updateExistingStatuses(sheet, threads);\n' +
+        '  props.setProperty(\'lastRun\', Date.now().toString());\n' +
+        '}\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// CORE EXTRACTION\n' +
+        '// ============================================================\n' +
+        'function extractJobInfo(thread) {\n' +
+        '  const messages  = thread.getMessages();\n' +
+        '  const firstMsg  = messages[0];\n' +
+        '  const subject   = firstMsg.getSubject()   || \'\';\n' +
+        '  const body      = firstMsg.getPlainBody() || \'\';\n' +
+        '  const htmlBody  = firstMsg.getBody()      || \'\';\n' +
+        '  const from      = firstMsg.getFrom()      || \'\';\n' +
+        '  const date      = Utilities.formatDate(firstMsg.getDate(), Session.getScriptTimeZone(), \'yyyy-MM-dd\');\n' +
+        '\n' +
+        '  const status   = detectStatus(subject, body);\n' +
+        '  const company  = extractCompany(from, subject, body, htmlBody);\n' +
+        '  const position = extractPosition(subject, body);\n' +
+        '  const location = extractLocation(body, htmlBody);\n' +
+        '  const jobUrl   = \'https://mail.google.com/mail/u/0/#inbox/\' + thread.getId();\n' +
+        '  const notes    = body.replace(/\\s+/g, \' \').trim().substring(0, 200);\n' +
+        '\n' +
+        '  if (company === \'Unknown Company\' && position === \'Unknown Position\') return null;\n' +
+        '\n' +
+        '  return { company, position, location, status, date, jobUrl, notes };\n' +
+        '}\n' +
+        '\n' +
+        'function detectStatus(subject, body) {\n' +
+        '  const text = (subject + \' \' + body).toLowerCase();\n' +
+        '  if (/offer letter|congratulations.*offer/i.test(text)) return \'Offer\';\n' +
+        '  if (/interview|schedule.*call|zoom call/i.test(text))  return \'Interview\';\n' +
+        '  if (/unfortunately|not moving forward|regret/i.test(text)) return \'Rejected\';\n' +
+        '  return \'Applied\';\n' +
+        '}\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// COMPANY\n' +
+        '// ============================================================\n' +
+        'function extractCompany(from, subject, body, htmlBody) {\n' +
+        '  // Handshake subject: "You applied to Acme Corp, Apply to Similar Jobs?"\n' +
+        '  const hsMatch = subject.match(/You applied to\\s+([A-Z0-9][A-Za-z0-9\\s&,.\'\'-]{1,60}?)(?:,\\s*apply|\\s+apply|$)/i);\n' +
+        '  if (hsMatch) return toTitleCase(hsMatch[1].trim());\n' +
+        '\n' +
+        '  // Indeed: company is in the HTML body as "CompanyName - City, ST ZIP"\n' +
+        '  if (/indeed/i.test(from)) {\n' +
+        '    const stripped = (htmlBody || \'\').replace(/<[^>]+>/g, \' \').replace(/&amp;/g, \'&\').replace(/\\s+/g, \' \');\n' +
+        '\n' +
+        '    // "WorkForce Central - Tacoma, WA 98409"\n' +
+        '    const htmlCompany = stripped.match(/([A-Z][A-Za-z0-9\\s&.\'\'-]{1,60}?)\\s+-\\s+[A-Z][a-z]+,\\s+[A-Z]{2}\\b/);\n' +
+        '    if (htmlCompany) {\n' +
+        '      const candidate = htmlCompany[1].trim();\n' +
+        '      if (candidate.length > 1 && !/submitted|indeed|application/i.test(candidate)) {\n' +
+        '        return toTitleCase(candidate);\n' +
+        '      }\n' +
+        '    }\n' +
+        '\n' +
+        '    // Plain-body fallbacks\n' +
+        '    const plainPatterns = [\n' +
+        '      /(?:application was sent to|applied to)\\s+([A-Z][A-Za-z0-9\\s&.\'\'-]{1,60}?)(?:\\n|\\.|\\s{2,})/i,\n' +
+        '      /^Company:\\s*(.{2,60}?)$/im,\n' +
+        '    ];\n' +
+        '    for (const pat of plainPatterns) {\n' +
+        '      const m = body.match(pat);\n' +
+        '      if (m && m[1] && m[1].trim().length > 1) return toTitleCase(m[1].trim());\n' +
+        '    }\n' +
+        '\n' +
+        '    // Subject fallback: "Indeed Application: Job Title at Company Name"\n' +
+        '    const subjectCompany = subject.match(/\\bat\\s+([A-Z][A-Za-z0-9\\s&.\'\'-]{1,50}?)(?:\\s*[-|]|$)/i);\n' +
+        '    if (subjectCompany) return toTitleCase(subjectCompany[1].trim());\n' +
+        '\n' +
+        '    return \'Unknown Company\';\n' +
+        '  }\n' +
+        '\n' +
+        '  // Workday: sender is "Workday IRC HR Notification <theirc@myworkday.com>"\n' +
+        '  // Company name is in the body: "application to [Position] at the [Company]"\n' +
+        '  if (/myworkday\\.com/i.test(from)) {\n' +
+        '    const wdStripped = (htmlBody || \'\').replace(/<[^>]+>/g, \' \');\n' +
+        '    const wdMatch = (body + \' \' + wdStripped)\n' +
+        '      .match(/application to .{3,100}? at (?:the )?([A-Z][A-Za-z0-9\\s&.\'\'-]{2,60}?)(?:[,.]|\\s{2,}|$)/i);\n' +
+        '    if (wdMatch) return toTitleCase(wdMatch[1].trim());\n' +
+        '  }\n' +
+        '\n' +
+        '  // Sender display name: "Acme Recruiting <jobs@acme.com>"\n' +
+        '  const nameMatch = from.match(/^"?([^"<]+)"?\\s*</);\n' +
+        '  if (nameMatch) {\n' +
+        '    let name = nameMatch[1].trim();\n' +
+        '    name = name.replace(/^(careers?|recruiting|hr|jobs?|noreply|no-reply|talent|Indeed)\\s+(at|@|for)\\s+/i, \'\');\n' +
+        '    if (name.length > 2 && !/handshake|indeed/i.test(name)) return toTitleCase(name);\n' +
+        '  }\n' +
+        '\n' +
+        '  // Domain fallback\n' +
+        '  const domainMatch = from.match(/@([\\w-]+)\\.(com|io|co|org|net|ai)/i);\n' +
+        '  if (domainMatch) {\n' +
+        '    const domain = domainMatch[1].toLowerCase();\n' +
+        '    const ignored = [\'gmail\',\'yahoo\',\'outlook\',\'hotmail\',\'icloud\',\'greenhouse\',\'lever\',\'handshake\',\'indeed\'];\n' +
+        '    if (!ignored.includes(domain)) return toTitleCase(domain.replace(/-/g, \' \'));\n' +
+        '  }\n' +
+        '\n' +
+        '  return \'Unknown Company\';\n' +
+        '}\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// POSITION\n' +
+        '// ============================================================\n' +
+        'function extractPosition(subject, body) {\n' +
+        '  const searchText = subject + \'\\n\' + body.substring(0, 1000);\n' +
+        '\n' +
+        '  // Handshake body: "You successfully applied to Delivery Intern at Dixon Mason Group"\n' +
+        '  if (/you applied to/i.test(subject)) {\n' +
+        '    const hsPatterns = [\n' +
+        '      /(?:successfully applied to|applied to)\\s+([A-Z][^.]{2,80}?)\\s+at\\s+[A-Z]/i,\n' +
+        '      /(?:^|\\n)\\s*(?:position|role|job title)[:\\s]+([^\\n]{3,80})/im,\n' +
+        '    ];\n' +
+        '    for (const pat of hsPatterns) {\n' +
+        '      const m = searchText.match(pat);\n' +
+        '      if (m && m[1] && !/apply to similar|similar jobs|keep your search/i.test(m[1])) {\n' +
+        '        return toTitleCase(m[1].trim().substring(0, 80));\n' +
+        '      }\n' +
+        '    }\n' +
+        '    return \'Unknown Position\';\n' +
+        '  }\n' +
+        '\n' +
+        '  // Indeed subject: "Indeed Application: IT Intern (UW Tacoma Student)"\n' +
+        '  if (/indeed application/i.test(subject)) {\n' +
+        '    const m = subject.match(/Indeed Application:\\s*(.+?)(?:\\s*\\(|$)/i);\n' +
+        '    if (m) return toTitleCase(m[1].trim());\n' +
+        '  }\n' +
+        '\n' +
+        '  // Generic body patterns — normalize whitespace first so line breaks don\'t break matches\n' +
+        '  const normalizedText = searchText.replace(/\\r?\\n/g, \' \').replace(/\\s+/g, \' \');\n' +
+        '  const patterns = [\n' +
+        '    /(?:position|role|job title)[:\\s]+([^\\n]{3,80}?)(?:\\n| {2}|$)/i,\n' +
+        '    // "submitting your application to Job Title (unpaid) at Company" — Workday style\n' +
+        '    /(?:application to)\\s+([A-Za-z][^(]{3,80}?)(?:\\s*\\([^)]*\\))?\\s+at\\s+[A-Z]/i,\n' +
+        '    /(?:application for(?: the)?|applying for(?: the)?|applied for(?: the)?)\\s+([A-Za-z][^,]{3,80}?)(?:\\s+(?:at|@)|\\s*[-,]|$)/i,\n' +
+        '  ];\n' +
+        '  for (const pat of patterns) {\n' +
+        '    const m = normalizedText.match(pat);\n' +
+        '    if (m && m[1] && m[1].trim().length > 2) return toTitleCase(m[1].trim().substring(0, 80));\n' +
+        '  }\n' +
+        '\n' +
+        '  // Last resort: clean subject\n' +
+        '  // Handle "Thank You - Documented Info Digital" style where position comes AFTER a dash\n' +
+        '  const dashSplit = subject.match(/^(?:thank you|thanks)[^-\u2013]*[-\u2013]\\s*(.{3,80}?)$/i);\n' +
+        '  if (dashSplit) return toTitleCase(dashSplit[1].trim().substring(0, 80));\n' +
+        '\n' +
+        '  const cleaned = subject\n' +
+        '    .replace(/^(re:|fwd?:|your application|thank you for applying|thank you|application received|application submitted|you applied to|indeed application)[:\\s]*/i, \'\')\n' +
+        '    .replace(/\\s+(?:at|@|for|with)\\s+.*/i, \'\')\n' +
+        '    .replace(/,?\\s*apply to similar jobs?\\s*\\??/i, \'\')\n' +
+        '    .trim();\n' +
+        '\n' +
+        '  // If what remains is a generic filler with no real title, give up\n' +
+        '  if (/^(thank you|thanks|hello|hi|congratulations|greetings|for your application|your application)$/i.test(cleaned)) return \'Unknown Position\';\n' +
+        '\n' +
+        '  return cleaned.length > 2 ? toTitleCase(cleaned.substring(0, 80)) : \'Unknown Position\';\n' +
+        '}\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// LOCATION — grabs city/state from Indeed, Remote from Handshake\n' +
+        '// ============================================================\n' +
+        'function extractLocation(body, htmlBody) {\n' +
+        '  // Indeed HTML: "WorkForce Central - Tacoma, WA 98409"\n' +
+        '  const stripped = (htmlBody || \'\').replace(/<[^>]+>/g, \' \').replace(/\\s+/g, \' \');\n' +
+        '  const indeedLoc = stripped.match(/\\s+-\\s+([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?,\\s+[A-Z]{2}(?:\\s+\\d{5})?)\\b/);\n' +
+        '  if (indeedLoc) return indeedLoc[1].trim();\n' +
+        '\n' +
+        '  // Remote / Hybrid / On-site keyword in body\n' +
+        '  const remoteMatch = body.match(/\\b(Remote|Hybrid|On-?site)\\b/i);\n' +
+        '  if (remoteMatch) return toTitleCase(remoteMatch[1]);\n' +
+        '\n' +
+        '  // City, ST pattern in plain body\n' +
+        '  const cityState = body.match(/\\b([A-Z][a-z]+(?:\\s+[A-Z][a-z]+)?,\\s+[A-Z]{2})\\b/);\n' +
+        '  if (cityState) return cityState[1];\n' +
+        '\n' +
+        '  return \'\';\n' +
+        '}\n' +
+        '\n' +
+        '\n' +
+        '// ============================================================\n' +
+        '// SYSTEM HELPERS\n' +
+        '// ============================================================\n' +
+        'function updateExistingStatuses(sheet, threads) {\n' +
+        '  const data = sheet.getDataRange().getValues();\n' +
+        '  if (data.length < 2) return;\n' +
+        '  const rowMap = {};\n' +
+        '  for (let i = 1; i < data.length; i++) {\n' +
+        '    const tid = data[i][CONFIG.COLS.threadId];\n' +
+        '    if (tid) rowMap[tid] = i + 1;\n' +
+        '  }\n' +
+        '  for (const thread of threads) {\n' +
+        '    const rowNum = rowMap[thread.getId()];\n' +
+        '    if (!rowNum) continue;\n' +
+        '    const msg = thread.getMessages()[0];\n' +
+        '    const newStatus = detectStatus(msg.getSubject(), msg.getPlainBody());\n' +
+        '    sheet.getRange(rowNum, CONFIG.COLS.status + 1).setValue(newStatus);\n' +
+        '  }\n' +
+        '}\n' +
+        '\n' +
+        'function getOrCreateSheet() {\n' +
+        '  const ss = SpreadsheetApp.getActiveSpreadsheet();\n' +
+        '  let sheet = ss.getSheetByName(CONFIG.SHEET_NAME) || ss.insertSheet(CONFIG.SHEET_NAME);\n' +
+        '  if (sheet.getLastRow() === 0) {\n' +
+        '    sheet.appendRow([\'ThreadID\', \'Company\', \'Position\', \'Location\', \'Status\', \'Date\', \'JobURL\', \'Notes\']);\n' +
+        '    sheet.setFrozenRows(1);\n' +
+        '  }\n' +
+        '  return sheet;\n' +
+        '}\n' +
+        '\n' +
+        'function getExistingThreadIds(sheet) {\n' +
+        '  const ids = new Set();\n' +
+        '  const lastRow = sheet.getLastRow();\n' +
+        '  if (lastRow < 2) return ids;\n' +
+        '  sheet.getRange(2, 1, lastRow - 1, 1).getValues().forEach(row => { if (row[0]) ids.add(row[0].toString()); });\n' +
+        '  return ids;\n' +
+        '}\n' +
+        '\n' +
+        'function toTitleCase(str) { return str.replace(/\\w\\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()); }\n' +
+        'function installPollingTrigger() { removeTriggersByFunction(\'scanGmailForJobs\'); ScriptApp.newTrigger(\'scanGmailForJobs\').timeBased().everyMinutes(CONFIG.POLL_MINUTES).create(); }\n' +
+        'function setupGmailWatch() { installWatchRenewalTrigger(); return true; }\n' +
+        'function installWatchRenewalTrigger() { removeTriggersByFunction(\'renewGmailWatch\'); ScriptApp.newTrigger(\'renewGmailWatch\').timeBased().everyDays(6).create(); }\n' +
+        'function removeTriggersByFunction(funcName) { ScriptApp.getProjectTriggers().forEach(t => { if (t.getHandlerFunction() === funcName) ScriptApp.deleteTrigger(t); }); }\n' +
+        'function doPost(e) { scanGmailForJobs(); return ContentService.createTextOutput(\'OK\'); }';
+
+    function copyTrackerCode() {
+        navigator.clipboard.writeText(TRACKER_GS_CODE).then(() => {
+            const btn = document.getElementById('copyCodeBtn');
+            btn.textContent = '✅ Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = '📋 Copy Code';
+                btn.classList.remove('copied');
+            }, 2500);
+        }).catch(() => {
+            // Fallback for older browsers
+            const ta = document.createElement('textarea');
+            ta.value = TRACKER_GS_CODE;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            const btn = document.getElementById('copyCodeBtn');
+            btn.textContent = '✅ Copied!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = '📋 Copy Code';
+                btn.classList.remove('copied');
+            }, 2500);
+        });
+    }
+
+    // Open/close setup modal
+    function openSetupModal() {
+        document.getElementById('setup-modal').classList.add('active');
+        document.getElementById('setup-modal').onclick = closeSetupModal;
+    }
+
+    function closeSetupModal() {
+        document.getElementById('setup-modal').classList.remove('active');
+    }
+
+    // Escape HTML to prevent XSS
     function escapeHtml(text) {
-        if (!text) return '';
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
+
+    // Reset filters
+    function resetFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('statusFilter').value = 'all';
+        document.getElementById('sortBy').value = 'date-desc';
+        renderJobs();
+    }
+
+    // Add event listeners for search and filter
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const statusFilter = document.getElementById('statusFilter');
+        const sortBy = document.getElementById('sortBy');
+
+        if (searchInput) searchInput.addEventListener('input', renderJobs);
+        if (statusFilter) statusFilter.addEventListener('change', renderJobs);
+        if (sortBy) sortBy.addEventListener('change', renderJobs);
+    });
+
+    // Initialize
+    init();
 </script>
 </body>
 </html>
